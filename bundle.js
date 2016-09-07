@@ -21539,6 +21539,8 @@
 /* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	module.exports = {
 	    Carousel: __webpack_require__(173),
 	    Thumbs: __webpack_require__(181)
@@ -21547,6 +21549,8 @@
 /***/ },
 /* 173 */
 /***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -21576,7 +21580,7 @@
 	        axis: React.PropTypes.string
 	    },
 
-	    getDefaultProps() {
+	    getDefaultProps: function getDefaultProps() {
 	        return {
 	            showIndicators: true,
 	            showArrows: true,
@@ -21586,16 +21590,14 @@
 	            axis: 'horizontal'
 	        };
 	    },
-
-	    getInitialState() {
+	    getInitialState: function getInitialState() {
 	        return {
 	            // index of the image to be shown.
 	            selectedItem: this.props.selectedItem,
 	            hasMount: false
 	        };
 	    },
-
-	    componentWillReceiveProps(props, state) {
+	    componentWillReceiveProps: function componentWillReceiveProps(props, state) {
 	        if (props.selectedItem !== this.state.selectedItem) {
 	            this.updateSizes();
 	            this.setState({
@@ -21603,22 +21605,19 @@
 	            });
 	        }
 	    },
-
-	    componentWillMount() {
+	    componentWillMount: function componentWillMount() {
 	        // as the widths are calculated, we need to resize
 	        // the carousel when the window is resized
 	        window.addEventListener("resize", this.updateSizes);
 	        // issue #2 - image loading smaller
 	        window.addEventListener("DOMContentLoaded", this.updateSizes);
 	    },
-
-	    componentWillUnmount() {
+	    componentWillUnmount: function componentWillUnmount() {
 	        // removing listeners
 	        window.removeEventListener("resize", this.updateSizes);
 	        window.removeEventListener("DOMContentLoaded", this.updateSizes);
 	    },
-
-	    componentDidMount(nextProps) {
+	    componentDidMount: function componentDidMount(nextProps) {
 	        // when the component is rendered we need to calculate
 	        // the container size to adjust the responsive behaviour
 	        this.updateSizes();
@@ -21628,20 +21627,17 @@
 	        var defaultImg = ReactDOM.findDOMNode(this.item0).getElementsByTagName('img')[0];
 	        defaultImg && defaultImg.addEventListener('load', this.setMountState);
 	    },
-
-	    updateSizes() {
+	    updateSizes: function updateSizes() {
 	        var firstItem = ReactDOM.findDOMNode(this.item0);
 	        this.itemSize = this.isHorizontal ? firstItem.clientWidth : firstItem.clientHeight;
 	        this.wrapperSize = this.isHorizontal ? this.itemSize * this.props.children.length : this.itemSize;
 	    },
-
-	    setMountState() {
+	    setMountState: function setMountState() {
 	        this.setState({ hasMount: true });
 	        this.updateSizes();
 	        this.forceUpdate();
 	    },
-
-	    handleClickItem(index, item) {
+	    handleClickItem: function handleClickItem(index, item) {
 	        var handler = this.props.onClickItem;
 
 	        if (typeof handler === 'function') {
@@ -21654,16 +21650,14 @@
 	            });
 	        }
 	    },
-
-	    handleOnChange(index, item) {
+	    handleOnChange: function handleOnChange(index, item) {
 	        var handler = this.props.onChange;
 
 	        if (typeof handler === 'function') {
 	            handler(index, item);
 	        }
 	    },
-
-	    handleClickThumb(index, item) {
+	    handleClickThumb: function handleClickThumb(index, item) {
 	        var handler = this.props.onClickThumb;
 
 	        if (typeof handler === 'function') {
@@ -21674,20 +21668,19 @@
 	            selectedItem: index
 	        });
 	    },
-
-	    onSwipeStart() {
+	    onSwipeStart: function onSwipeStart() {
 	        this.setState({
 	            swiping: true
 	        });
 	    },
-
-	    onSwipeEnd() {
+	    onSwipeEnd: function onSwipeEnd() {
 	        this.setState({
 	            swiping: false
 	        });
 	    },
+	    onSwipeMove: function onSwipeMove(delta) {
+	        var _this = this;
 
-	    onSwipeMove(delta) {
 	        var list = ReactDOM.findDOMNode(this.itemList);
 	        var isHorizontal = this.props.axis === 'horizontal';
 
@@ -21710,20 +21703,17 @@
 
 	        var position = currentPosition + 100 / (this.wrapperSize / axisDelta) + '%';
 
-	        ['WebkitTransform', 'MozTransform', 'MsTransform', 'OTransform', 'transform', 'msTransform'].forEach(prop => {
-	            list.style[prop] = CSSTranslate(position, this.props.axis);
+	        ['WebkitTransform', 'MozTransform', 'MsTransform', 'OTransform', 'transform', 'msTransform'].forEach(function (prop) {
+	            list.style[prop] = CSSTranslate(position, _this.props.axis);
 	        });
 	    },
-
-	    decrement(positions) {
+	    decrement: function decrement(positions) {
 	        this.moveTo(this.state.selectedItem - (typeof positions === 'Number' ? positions : 1));
 	    },
-
-	    increment(positions) {
+	    increment: function increment(positions) {
 	        this.moveTo(this.state.selectedItem + (typeof positions === 'Number' ? positions : 1));
 	    },
-
-	    moveTo(position) {
+	    moveTo: function moveTo(position) {
 	        // position can't be lower than 0
 	        position = position < 0 ? 0 : position;
 	        // position can't be higher than last postion
@@ -21734,35 +21724,37 @@
 	            selectedItem: position
 	        });
 	    },
-
-	    changeItem(e) {
+	    changeItem: function changeItem(e) {
 	        var newIndex = e.target.value;
 
 	        this.selectItem({
 	            selectedItem: newIndex
 	        });
 	    },
-
-	    selectItem(state) {
+	    selectItem: function selectItem(state) {
 	        this.setState(state);
 	        this.handleOnChange(state.selectedItem, this.props.children[state.selectedItem]);
 	    },
+	    renderItems: function renderItems() {
+	        var _this2 = this;
 
-	    renderItems() {
-	        return React.Children.map(this.props.children, (item, index) => {
-	            var hasMount = this.state.hasMount;
-	            var itemClass = klass.ITEM(true, index === this.state.selectedItem);
+	        return React.Children.map(this.props.children, function (item, index) {
+	            var hasMount = _this2.state.hasMount;
+	            var itemClass = klass.ITEM(true, index === _this2.state.selectedItem);
 
 	            return React.createElement(
 	                'li',
-	                { ref: node => this["item" + index] = node, key: "itemKey" + index, className: itemClass,
-	                    onClick: this.handleClickItem.bind(this, index, item) },
+	                { ref: function ref(node) {
+	                        return _this2["item" + index] = node;
+	                    }, key: "itemKey" + index, className: itemClass,
+	                    onClick: _this2.handleClickItem.bind(_this2, index, item) },
 	                item
 	            );
 	        });
 	    },
+	    renderControls: function renderControls() {
+	        var _this3 = this;
 
-	    renderControls() {
 	        if (!this.props.showIndicators) {
 	            return null;
 	        }
@@ -21770,13 +21762,12 @@
 	        return React.createElement(
 	            'ul',
 	            { className: 'control-dots' },
-	            React.Children.map(this.props.children, (item, index) => {
-	                return React.createElement('li', { className: klass.DOT(index === this.state.selectedItem), onClick: this.changeItem, value: index, key: index });
+	            React.Children.map(this.props.children, function (item, index) {
+	                return React.createElement('li', { className: klass.DOT(index === _this3.state.selectedItem), onClick: _this3.changeItem, value: index, key: index });
 	            })
 	        );
 	    },
-
-	    renderStatus() {
+	    renderStatus: function renderStatus() {
 	        if (!this.props.showStatus) {
 	            return null;
 	        }
@@ -21789,8 +21780,7 @@
 	            this.props.children.length
 	        );
 	    },
-
-	    renderThumbs() {
+	    renderThumbs: function renderThumbs() {
 	        if (!this.props.showThumbs) {
 	            return null;
 	        }
@@ -21801,8 +21791,9 @@
 	            this.props.children
 	        );
 	    },
+	    render: function render() {
+	        var _this4 = this;
 
-	    render() {
 	        var itemsLength = this.props.children.length;
 
 	        if (itemsLength === 0) {
@@ -21839,7 +21830,9 @@
 	            onSwipeStart: this.onSwipeStart,
 	            onSwipeEnd: this.onSwipeEnd,
 	            style: itemListStyles,
-	            ref: node => this.itemList = node
+	            ref: function ref(node) {
+	                return _this4.itemList = node;
+	            }
 	        };
 
 	        var containerStyles = {};
@@ -21868,7 +21861,9 @@
 	                React.createElement('button', { type: 'button', className: klass.ARROW_PREV(!hasPrev), onClick: this.decrement }),
 	                React.createElement(
 	                    'div',
-	                    { className: klass.WRAPPER(true, this.props.axis), style: containerStyles, ref: node => this.itemsWrapper = node },
+	                    { className: klass.WRAPPER(true, this.props.axis), style: containerStyles, ref: function ref(node) {
+	                            return _this4.itemsWrapper = node;
+	                        } },
 	                    React.createElement(
 	                        Swipe,
 	                        _extends({ tagName: 'ul' }, swiperProps),
@@ -21888,17 +21883,18 @@
 /* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	var classNames = __webpack_require__(175);
 
 	module.exports = {
-		CAROUSEL(isSlider) {
+		CAROUSEL: function CAROUSEL(isSlider) {
 			return classNames({
 				"carousel": true,
 				"carousel-slider": isSlider
 			});
 		},
-
-		WRAPPER(isSlider, axis) {
+		WRAPPER: function WRAPPER(isSlider, axis) {
 			return classNames({
 				"thumbs-wrapper": !isSlider,
 				"slider-wrapper": isSlider,
@@ -21906,38 +21902,33 @@
 				"axis-vertical": axis !== "horizontal"
 			});
 		},
-
-		SLIDER(isSlider, isSwiping) {
+		SLIDER: function SLIDER(isSlider, isSwiping) {
 			return classNames({
 				"thumbs": !isSlider,
 				"slider": isSlider,
 				"animated": !isSwiping
 			});
 		},
-
-		ITEM(isSlider, selected) {
+		ITEM: function ITEM(isSlider, selected) {
 			return classNames({
 				"thumb": !isSlider,
 				"slide": isSlider,
 				"selected": selected
 			});
 		},
-
-		ARROW_PREV(disabled) {
+		ARROW_PREV: function ARROW_PREV(disabled) {
 			return classNames({
 				"control-arrow control-prev": true,
 				"control-disabled": disabled
 			});
 		},
-
-		ARROW_NEXT(disabled) {
+		ARROW_NEXT: function ARROW_NEXT(disabled) {
 			return classNames({
 				"control-arrow control-next": true,
 				"control-disabled": disabled
 			});
 		},
-
-		DOT(selected) {
+		DOT: function DOT(selected) {
 			return classNames({
 				"dot": true,
 				'selected': selected
@@ -22003,6 +21994,8 @@
 /* 176 */
 /***/ function(module, exports) {
 
+	'use strict';
+
 	module.exports = function (target) {
 	  if (target === undefined || target === null) {
 	    throw new TypeError('Cannot convert undefined or null to object');
@@ -22026,6 +22019,8 @@
 /* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	var has3d = __webpack_require__(178);
 
 	module.exports = function (position, axis) {
@@ -22046,6 +22041,8 @@
 /***/ },
 /* 178 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	module.exports = function has3d() {
 	    if (typeof window === 'undefined' || !window.getComputedStyle) {
@@ -22303,6 +22300,8 @@
 /* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(34);
 	var klass = __webpack_require__(174);
@@ -22323,22 +22322,20 @@
 	        selectedItem: React.PropTypes.number
 	    },
 
-	    getDefaultProps() {
+	    getDefaultProps: function getDefaultProps() {
 	        return {
 	            selectedItem: 0,
 	            axis: 'horizontal'
 	        };
 	    },
-
-	    getInitialState() {
+	    getInitialState: function getInitialState() {
 	        return {
 	            selectedItem: this.props.selectedItem,
 	            hasMount: false,
 	            firstItem: this.getFirstItem(this.props.selectedItem)
 	        };
 	    },
-
-	    componentWillReceiveProps(props, state) {
+	    componentWillReceiveProps: function componentWillReceiveProps(props, state) {
 	        if (props.selectedItem !== this.state.selectedItem) {
 	            this.setState({
 	                selectedItem: props.selectedItem,
@@ -22346,22 +22343,19 @@
 	            });
 	        }
 	    },
-
-	    componentWillMount() {
+	    componentWillMount: function componentWillMount() {
 	        // as the widths are calculated, we need to resize
 	        // the carousel when the window is resized
 	        window.addEventListener("resize", this.updateStatics);
 	        // issue #2 - image loading smaller
 	        window.addEventListener("DOMContentLoaded", this.updateStatics);
 	    },
-
-	    componentWillUnmount() {
+	    componentWillUnmount: function componentWillUnmount() {
 	        // removing listeners
 	        window.removeEventListener("resize", this.updateStatics);
 	        window.removeEventListener("DOMContentLoaded", this.updateStatics);
 	    },
-
-	    componentDidMount(nextProps) {
+	    componentDidMount: function componentDidMount(nextProps) {
 	        // when the component is rendered we need to calculate
 	        // the container size to adjust the responsive behaviour
 	        this.updateStatics();
@@ -22369,8 +22363,7 @@
 	        var defaultImg = ReactDOM.findDOMNode(this.thumb0).getElementsByTagName('img')[0];
 	        defaultImg.addEventListener('load', this.setMountState);
 	    },
-
-	    updateStatics() {
+	    updateStatics: function updateStatics() {
 	        var total = this.props.children.length;
 	        this.wrapperSize = this.itemsWrapper.clientWidth;
 	        this.itemSize = outerWidth(this.thumb0);
@@ -22378,32 +22371,29 @@
 	        this.lastPosition = total - this.visibleItems;
 	        this.showArrows = this.visibleItems < total;
 	    },
-
-	    setMountState() {
+	    setMountState: function setMountState() {
 	        this.setState({ hasMount: true });
 	    },
-
-	    handleClickItem(index, item) {
+	    handleClickItem: function handleClickItem(index, item) {
 	        var handler = this.props.onSelectItem;
 
 	        if (typeof handler === 'function') {
 	            handler(index, item);
 	        }
 	    },
-
-	    onSwipeStart() {
+	    onSwipeStart: function onSwipeStart() {
 	        this.setState({
 	            swiping: true
 	        });
 	    },
-
-	    onSwipeEnd() {
+	    onSwipeEnd: function onSwipeEnd() {
 	        this.setState({
 	            swiping: false
 	        });
 	    },
+	    onSwipeMove: function onSwipeMove(deltaX) {
+	        var _this = this;
 
-	    onSwipeMove(deltaX) {
 	        var leftBoundry = 0;
 	        var list = ReactDOM.findDOMNode(this.itemList);
 	        var wrapperSize = list.clientWidth;
@@ -22425,20 +22415,17 @@
 	        var position = currentPosition + 100 / (wrapperSize / deltaX) + '%';
 
 	        // if 3d isn't available we will use left to move
-	        ['WebkitTransform', 'MozTransform', 'MsTransform', 'OTransform', 'transform', 'msTransform'].forEach(prop => {
-	            list.style[prop] = CSSTranslate(position, this.props.axis);
+	        ['WebkitTransform', 'MozTransform', 'MsTransform', 'OTransform', 'transform', 'msTransform'].forEach(function (prop) {
+	            list.style[prop] = CSSTranslate(position, _this.props.axis);
 	        });
 	    },
-
-	    slideRight(positions) {
+	    slideRight: function slideRight(positions) {
 	        this.moveTo(this.state.firstItem - (typeof positions === 'Number' ? positions : 1));
 	    },
-
-	    slideLeft(positions) {
+	    slideLeft: function slideLeft(positions) {
 	        this.moveTo(this.state.firstItem + (typeof positions === 'Number' ? positions : 1));
 	    },
-
-	    moveTo(position) {
+	    moveTo: function moveTo(position) {
 	        // position can't be lower than 0
 	        position = position < 0 ? 0 : position;
 	        // position can't be higher than last postion
@@ -22450,8 +22437,7 @@
 	            selectedItem: this.state.selectedItem
 	        });
 	    },
-
-	    getFirstItem(selectedItem) {
+	    getFirstItem: function getFirstItem(selectedItem) {
 	        if (!this.showArrows) {
 	            return 0;
 	        }
@@ -22472,15 +22458,18 @@
 
 	        return firstItem;
 	    },
+	    renderItems: function renderItems() {
+	        var _this2 = this;
 
-	    renderItems() {
-	        return React.Children.map(this.props.children, (item, index) => {
-	            var itemClass = klass.ITEM(false, index === this.state.selectedItem && this.state.hasMount);
+	        return React.Children.map(this.props.children, function (item, index) {
+	            var itemClass = klass.ITEM(false, index === _this2.state.selectedItem && _this2.state.hasMount);
 
 	            var img = item;
 
 	            if (item.type !== "img") {
-	                img = item.props.children.filter(children => children.type === "img")[0];
+	                img = item.props.children.filter(function (children) {
+	                    return children.type === "img";
+	                })[0];
 	            }
 
 	            if (img.length) {
@@ -22489,14 +22478,17 @@
 
 	            return React.createElement(
 	                'li',
-	                { key: index, ref: node => this["thumb" + index] = node, className: itemClass,
-	                    onClick: this.handleClickItem.bind(this, index, item) },
+	                { key: index, ref: function ref(node) {
+	                        return _this2["thumb" + index] = node;
+	                    }, className: itemClass,
+	                    onClick: _this2.handleClickItem.bind(_this2, index, item) },
 	                img
 	            );
 	        });
 	    },
+	    render: function render() {
+	        var _this3 = this;
 
-	    render() {
 	        if (this.props.children.length === 0) {
 	            return null;
 	        }
@@ -22526,7 +22518,9 @@
 	            { className: klass.CAROUSEL(false) },
 	            React.createElement(
 	                'div',
-	                { className: klass.WRAPPER(false), ref: node => this.itemsWrapper = node },
+	                { className: klass.WRAPPER(false), ref: function ref(node) {
+	                        return _this3.itemsWrapper = node;
+	                    } },
 	                React.createElement('button', { type: 'button', className: klass.ARROW_PREV(!hasPrev), onClick: this.slideRight }),
 	                React.createElement(
 	                    Swipe,
@@ -22539,7 +22533,9 @@
 	                        onSwipeStart: this.onSwipeStart,
 	                        onSwipeEnd: this.onSwipeEnd,
 	                        style: itemListStyles,
-	                        ref: node => this.itemList = node },
+	                        ref: function ref(node) {
+	                            return _this3.itemList = node;
+	                        } },
 	                    this.renderItems()
 	                ),
 	                React.createElement('button', { type: 'button', className: klass.ARROW_NEXT(!hasNext), onClick: this.slideLeft })
@@ -22552,8 +22548,10 @@
 /* 182 */
 /***/ function(module, exports) {
 
+	"use strict";
+
 	module.exports = {
-		outerWidth: el => {
+		outerWidth: function outerWidth(el) {
 			var width = el.offsetWidth;
 			var style = getComputedStyle(el);
 
