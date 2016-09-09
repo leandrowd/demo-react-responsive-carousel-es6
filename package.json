@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "react-responsive-carousel": "^3.0.15"
   },
   "devDependencies": {
+    "@kadira/storybook": "^2.12.1",
     "babel-cli": "^6.14.0",
     "babel-loader": "^6.2.5",
     "babel-preset-es2015": "^6.14.0",
